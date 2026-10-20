@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colour Puzzle Mapper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Colour Puzzle Mapper</h1>
+    <p class="sub">Upload today's puzzle screenshot to get the matching disc layout.</p>
+  </header>
+
+  <main>
+    <section class="panel" id="upload-panel">
+      <label class="drop" for="file-input">
+        <input id="file-input" type="file" accept="image/*">
+        <span>Choose or drop a screenshot</span>
+      </label>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" id="preview-panel" hidden>
+      <h2>Screenshot</h2>
+      <canvas id="preview"></canvas>
+    </section>
+
+    <section class="panel" id="result-panel" hidden>
+      <h2>Extracted grid</h2>
+      <div id="grid" class="grid"></div>
+
+      <h2>Disc mapping</h2>
+      <div id="discs" class="grid"></div>
+
+      <h2>JSON</h2>
+      <pre id="json"></pre>
+      <button id="copy-json" type="button">Copy JSON</button>
+    </section>
+  </main>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
