@@ -5,7 +5,7 @@ import { detectLayout } from './detect.js';
 import { sampleLayout } from './sample.js';
 import { clusterColors } from './cluster.js';
 import { mapToDiscs } from './discs.js';
-import { renderGrid, renderJson, hex } from './render.js';
+import { renderGrid, renderMapping, renderJson, hex } from './render.js';
 import { setupPalette } from './palette-ui.js';
 import { palettePayload } from './palette.js';
 import { reverseStacks } from './stacks.js';
@@ -84,6 +84,8 @@ async function handleFile(file) {
       output.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     });
   } catch (err) {
+    currentResult = null;
+    $('result-panel').hidden = true;
     console.error(err);
     status.textContent = `Image loaded. Could not extract the grid: ${err.message}`;
   }
@@ -93,10 +95,11 @@ function renderResult() {
   if (!currentResult) return;
   const { layout, grid, colors, counts } = currentResult;
   const palette = getPalette();
-  const { mapping, collisions } = mapToDiscs(colors, palette);
+  const { mapping } = mapToDiscs(colors, palette);
   const physicalGrid = reverseStacks(grid);
   renderGrid($('grid'), grid, label => hex(colors[label]), layout.cols);
   renderGrid($('discs'), physicalGrid, label => mapping[label].disc, layout.cols);
+  renderMapping($('mapping-legend'), colors, mapping);
   renderJson($('json'), {
     layout: { rows: layout.rows, cols: layout.cols, slotsPerTube: layout.slotsPerTube },
     order: 'bottom-to-top', grid, physicalGrid,
@@ -104,11 +107,9 @@ function renderResult() {
     counts,
     discs: Object.fromEntries(Object.entries(mapping).map(([key, value]) => [key, value.disc.id])),
     stacks: physicalGrid.map(tube => tube.map(label => label ? { ...mapping[label].disc } : null)),
-    palette: palettePayload(palette), collisions,
+    palette: palettePayload(palette), mappingMode: 'one-to-one',
   });
   const warnings = [];
-  if (Object.keys(collisions).length) warnings.push('Some puzzle colours map to the same disc: ' +
-    Object.entries(collisions).map(([id, labels]) => `${id} (${labels.join(', ')})`).join('; ') + '. Adjust your palette to distinguish them.');
   const uneven = Object.entries(counts).filter(([, count]) => count !== layout.slotsPerTube);
   if (uneven.length) warnings.push('Check detected colour counts: ' + uneven.map(([label, count]) => `${label}: ${count}`).join(', ') + '.');
   $('result-warning').textContent = warnings.join(' ');

@@ -155,3 +155,15 @@ code { overflow-wrap: anywhere; }
 .color-channel { display: grid; grid-template-columns: 1fr auto; margin-top: 16px; }
 .color-channel input { grid-column: 1 / -1; width: 100%; margin: 8px 0; height: 28px; border-radius: 8px; }
 #color-dialog .actions { margin-top: 12px; }
+
+.color-preview { position: relative; display: block; cursor: pointer; }
+#disc-native-color {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  margin: 0; padding: 0; border: 0; opacity: 0; cursor: pointer;
+}
+.color-preview:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
+.picker-hint { color: var(--muted); font-size: .85rem; text-align: center; }
+.mapping-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0; font-size: .8rem; }
+.mapping-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.mapping-source, .mapping-target { display: inline-block; width: 18px; height: 14px; border: 1px solid var(--muted); }
+.mapping-target { border-radius: 50% / 30%; }

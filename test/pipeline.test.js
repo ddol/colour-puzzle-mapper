@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { gridFromManual } from '../src/detect.js';
 import { sampleLayout, isEmptySlot } from '../src/sample.js';
 import { clusterColors, labelFor } from '../src/cluster.js';
-import { mapToDiscs, nearestDisc, DISC_PALETTE } from '../src/discs.js';
+import { mapToDiscs, DISC_PALETTE } from '../src/discs.js';
 
 /** Build a synthetic ImageData-like image from a grid of RGB (null = empty). */
 function synthImage(tubes, { cols, slotsPerTube, cell = 40, slotH = 10 }) {
@@ -57,12 +57,10 @@ test('labelFor', () => {
   assert.equal(labelFor(26), 'AA');
 });
 
-test('mapToDiscs matches colours directly and reports collisions', () => {
-  assert.equal(nearestDisc([13, 13, 13]).disc.name, 'Black');
-  assert.equal(mapToDiscs({ A: [242, 242, 242] }).mapping.A.disc.name, 'White');
-  assert.equal(mapToDiscs({ A: [214, 40, 40] }).mapping.A.disc.name, 'Red');
-  const { mapping, collisions } = mapToDiscs({ A: [10, 10, 10], B: [14, 14, 14] });
-  assert.equal(mapping.A.disc.id, mapping.B.disc.id);
-  assert.deepEqual(collisions[mapping.A.disc.id], ['A', 'B']);
-  assert.ok(DISC_PALETTE.length > 0);
+test('each clustered screenshot colour receives its own palette disc', () => {
+  const { mapping } = mapToDiscs({ A: [10, 10, 10], B: [14, 14, 14] });
+  assert.equal(mapping.A.disc.id, 'D01');
+  assert.equal(mapping.B.disc.id, 'D02');
+  assert.notEqual(mapping.A.disc.id, mapping.B.disc.id);
+  assert.equal(DISC_PALETTE.length, 10);
 });

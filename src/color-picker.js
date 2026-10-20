@@ -1,11 +1,12 @@
 import { hexToRgb, rgbToHex } from './color.js';
 import { discBackground } from './palette.js';
 
-// Use an on-page dialog: hidden native input.click() is unreliable on iOS.
+// The modal disc contains a real colour input, directly tapped by the user.
 export function setupColorPicker(onSave) {
   const $ = id => document.getElementById(id);
   const dialog = $('color-dialog');
   const hex = $('disc-hex');
+  const native = $('disc-native-color');
   const save = $('color-save');
   const channels = ['red', 'green', 'blue'].map(channel => $(`disc-${channel}`));
   let selected = null;
@@ -13,6 +14,7 @@ export function setupColorPicker(onSave) {
   function showColor(value) {
     candidate = value.toLowerCase();
     hex.value = candidate;
+    native.value = candidate;
     const rgb = hexToRgb(candidate);
     channels.forEach((input, i) => {
       input.value = rgb[i];
@@ -24,6 +26,9 @@ export function setupColorPicker(onSave) {
     $('color-preview').style.background = discBackground({ ...selected.disc, hex: candidate });
     $('color-error').textContent = '';
     save.disabled = false;
+  }
+  for (const event of ['input', 'change']) {
+    native.addEventListener(event, () => showColor(native.value));
   }
   hex.addEventListener('input', () => {
     const value = hex.value.trim();

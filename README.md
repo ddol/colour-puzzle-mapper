@@ -7,8 +7,8 @@ physically printed discs.
 - **No framework or dependencies.** Vanilla ES modules + Canvas API; a small
   Node script packages the public files for deployment.
 - **Runs entirely in the browser.** Screenshots are never uploaded anywhere.
-- **Match the screenshot colours directly** to the nearest printed disc colour
-  (ΔE in Lab space); colliding colours are reported.
+- **Assign screenshot colours one-to-one** to the palette in label order:
+  A → D01, B → D02, …, J → D10. Colours do not need to look similar.
 - **Reverse each stack's occupied discs** so the next digital bottom disc is
   accessible from the physical top. RGB colour channels are never inverted.
 
@@ -51,12 +51,18 @@ The editor always contains ten disc colours. Each colour has a name, a colour
 dialog opened by tapping the disc, and independent **black stripe** and
 **white stripe** checkboxes in compact columns (neither,
 either one, or both). Saved changes update stacks and local storage.
-Matching compares the screenshot RGB directly to the base disc colour in Lab space;
-stripes identify physical discs and appear in the output. The shared on-page
-colour dialog supports RGB sliders and a six-digit hex field. **Save colour**
-commits the choice; **Cancel** leaves the palette unchanged. It does not depend
-on opening a hidden native colour input, which was unreliable on iOS. Duplicate/nearby base
-colours can map to the same disc; collisions are shown above the stacks.
+Each detected screenshot colour receives one distinct disc ID, in palette order,
+regardless of its RGB value. Assignment is stable for a given set of screenshot
+labels, even if their RGB values or the palette's colours/stripes change. The
+output includes a visible screenshot-label → disc-ID key. More detected colours
+than available discs produces a clear error instead of merging colours.
+
+Tap a palette disc to open the colour dialog, then **tap the disc inside the
+modal** to open the OS/browser's default colour picker. A real native colour
+input overlays that modal disc, so it receives the tap directly; no programmatic
+click proxy is used. RGB sliders and hex entry also remain available. Native,
+RGB and hex edits stay synchronized. **Save colour** commits the choice;
+**Cancel** leaves the palette unchanged.
 
 - **Export palette** downloads versioned `palette.json`; **Import palette** loads it.
 - **Share palette link** copies a URL with `?palette=<URL-encoded JSON>`; there is
@@ -89,9 +95,9 @@ src/detect.js        board / tube / slot geometry (+ manual grid fallback)
 src/sample.js        median colour per slot, empty-slot detection
 src/cluster.js       ΔE clustering → labelled grid
 src/color.js         pure colour maths (RGB, Lab, ΔE, HSV, median)
-src/discs.js         direct screenshot→nearest-disc colour mapping
+src/discs.js         consistent one-to-one screenshot-label→disc-ID mapping
 src/stacks.js        reverse occupied stack order; keep empty space at the top
-src/color-picker.js  accessible RGB/hex colour dialog
+src/color-picker.js  native OS picker plus accessible RGB/hex colour dialog
 src/default-palette.js checked-in ten-colour default
 src/palette.js       validation, JSON/query encoding, stripe backgrounds
 src/palette-ui.js    colour editor, local storage, import/export/share
@@ -111,10 +117,10 @@ fixture at three sizes, including both empty tubes and all ten colours.
 - `null` means an empty slot. Physical stacks keep empty slots above the discs.
 - Digital tubes empty from the bottom, physical stacks from the top. Thus a
   digital bottom-to-top `[A, B, C, D]` becomes physical `[D, C, B, A]`.
-- Output JSON: `{ layout, order, grid, physicalGrid, colors, counts, discs, stacks, palette, collisions }`
+- Output JSON: `{ layout, order, grid, physicalGrid, colors, counts, discs, stacks, palette, mappingMode }`
   with `order: "bottom-to-top"`. `grid` preserves the screenshot order;
   `physicalGrid` reverses the occupied labels. `stacks` follows `physicalGrid`
-  and includes disc identities, colours and stripes.
+  and includes disc identities, colours and stripes. `mappingMode` is `"one-to-one"`.
 
 ## Status
 

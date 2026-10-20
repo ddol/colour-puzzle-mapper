@@ -5,6 +5,7 @@ import { gunzipSync } from 'node:zlib';
 import { detectLayout } from '../src/detect.js';
 import { sampleLayout } from '../src/sample.js';
 import { clusterColors } from '../src/cluster.js';
+import { mapToDiscs } from '../src/discs.js';
 
 // Reduced RGBA copy of fixtures/2026-10-20.jpeg; no JPEG dependency needed in CI.
 const fixture = { width: 360, height: 580, data: gunzipSync(readFileSync(
@@ -33,6 +34,8 @@ for (const scale of [1, 2, 4]) {
     const result = clusterColors(sampleLayout(img, layout));
     assert.deepEqual(result.grid, expected);
     assert.deepEqual(Object.values(result.counts), Array(10).fill(4));
+    const { mapping } = mapToDiscs(result.colors);
+    assert.equal(new Set(Object.values(mapping).map(value => value.disc.id)).size, 10);
     for (const tube of layout.tubes) {
       assert.ok(tube.slots[0].y > tube.slots[3].y, 'bottom first');
     }
