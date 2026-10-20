@@ -33,7 +33,7 @@ export function isEmptySlot(rgb, { maxValue = 0.25 } = {}) {
 
 /**
  * Sample every slot in a layout.
- * @returns {(number[] | null)[][]}  per tube, top → bottom; null = empty
+ * @returns {(number[] | null)[][]}  per tube, bottom → top; null = empty
  */
 export function sampleLayout(img, layout) {
   return layout.tubes.map((tube) =>
