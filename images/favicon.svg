@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>Four coloured puzzle discs</title><svg xmlns="http://www.w3.org/2000/svg" x="2" y="37" width="60" height="24" viewBox="0 0 100 40" preserveAspectRatio="none">
+<defs>
+<linearGradient id="face0" x2="0" y2="1"><stop stop-color="#4be4ff"/><stop offset=".55" stop-color="#43cce8"/><stop offset="1" stop-color="#40c2dc"/></linearGradient>
+<linearGradient id="rim0" x2="0" y2="1"><stop stop-color="#39adc5"/><stop offset="1" stop-color="#277687"/></linearGradient>
+</defs>
+<path fill="url(#rim0)" d="M1 16 A49 16 0 0 0 99 16 L99 24 A49 16 0 0 1 1 24 Z"/>
+
+<path data-surface="face" fill="url(#face0)" fill-rule="evenodd" stroke="#36a3ba" stroke-width=".65" d="M99 16 A49 16 0 1 0 1 16 A49 16 0 1 0 99 16 Z M61 16 A11 3.6 0 1 0 39 16 A11 3.6 0 1 0 61 16 Z"/>
+<ellipse cx="50" cy="16" rx="11" ry="3.6" fill="none" stroke="#1e5c68" stroke-width=".8"/>
+</svg><svg xmlns="http://www.w3.org/2000/svg" x="2" y="26" width="60" height="24" viewBox="0 0 100 40" preserveAspectRatio="none">
+<defs>
+<linearGradient id="face1" x2="0" y2="1"><stop stop-color="#9652f3"/><stop offset=".55" stop-color="#8649d9"/><stop offset="1" stop-color="#7f45ce"/></linearGradient>
+<linearGradient id="rim1" x2="0" y2="1"><stop stop-color="#723eb8"/><stop offset="1" stop-color="#4e2a7e"/></linearGradient>
+</defs>
+<path fill="url(#rim1)" d="M1 16 A49 16 0 0 0 99 16 L99 24 A49 16 0 0 1 1 24 Z"/>
+<path data-rim="white" fill="#ffffff" d="M96.468 21.077 A49 16 0 0 1 93.852 23.139 L93.852 31.139 A49 16 0 0 0 96.468 29.077 Z"/>
+<path data-rim="white" fill="#ffffff" d="M71.864 30.319 A49 16 0 0 1 65.548 31.173 L65.548 39.173 A49 16 0 0 0 71.864 38.319 Z"/>
+<path data-rim="white" fill="#ffffff" d="M34.452 31.173 A49 16 0 0 1 28.136 30.319 L28.136 38.319 A49 16 0 0 0 34.452 39.173 Z"/>
+<path data-rim="white" fill="#ffffff" d="M6.148 23.139 A49 16 0 0 1 3.532 21.077 L3.532 29.077 A49 16 0 0 0 6.148 31.139 Z"/>
+<path data-surface="face" fill="url(#face1)" fill-rule="evenodd" stroke="#6b3aae" stroke-width=".65" d="M99 16 A49 16 0 1 0 1 16 A49 16 0 1 0 99 16 Z M61 16 A11 3.6 0 1 0 39 16 A11 3.6 0 1 0 61 16 Z"/>
+<ellipse cx="50" cy="16" rx="11" ry="3.6" fill="none" stroke="#3c2162" stroke-width=".8"/>
+</svg><svg xmlns="http://www.w3.org/2000/svg" x="2" y="15" width="60" height="24" viewBox="0 0 100 40" preserveAspectRatio="none">
+<defs>
+<linearGradient id="face2" x2="0" y2="1"><stop stop-color="#ffa400"/><stop offset=".55" stop-color="#ff9200"/><stop offset="1" stop-color="#f28b00"/></linearGradient>
+<linearGradient id="rim2" x2="0" y2="1"><stop stop-color="#d97c00"/><stop offset="1" stop-color="#945500"/></linearGradient>
+</defs>
+<path fill="url(#rim2)" d="M1 16 A49 16 0 0 0 99 16 L99 24 A49 16 0 0 1 1 24 Z"/>
+
+<path data-surface="face" fill="url(#face2)" fill-rule="evenodd" stroke="#cc7500" stroke-width=".65" d="M99 16 A49 16 0 1 0 1 16 A49 16 0 1 0 99 16 Z M61 16 A11 3.6 0 1 0 39 16 A11 3.6 0 1 0 61 16 Z"/>
+<ellipse cx="50" cy="16" rx="11" ry="3.6" fill="none" stroke="#734200" stroke-width=".8"/>
+</svg><svg xmlns="http://www.w3.org/2000/svg" x="2" y="4" width="60" height="24" viewBox="0 0 100 40" preserveAspectRatio="none">
+<defs>
+<linearGradient id="face3" x2="0" y2="1"><stop stop-color="#acff0c"/><stop offset=".55" stop-color="#9ae80b"/><stop offset="1" stop-color="#92dc0a"/></linearGradient>
+<linearGradient id="rim3" x2="0" y2="1"><stop stop-color="#83c509"/><stop offset="1" stop-color="#598706"/></linearGradient>
+</defs>
+<path fill="url(#rim3)" d="M1 16 A49 16 0 0 0 99 16 L99 24 A49 16 0 0 1 1 24 Z"/>
+
+<path data-surface="face" fill="url(#face3)" fill-rule="evenodd" stroke="#7bba09" stroke-width=".65" d="M99 16 A49 16 0 1 0 1 16 A49 16 0 1 0 99 16 Z M61 16 A11 3.6 0 1 0 39 16 A11 3.6 0 1 0 61 16 Z"/>
+<ellipse cx="50" cy="16" rx="11" ry="3.6" fill="none" stroke="#456805" stroke-width=".8"/>
+</svg></svg>
