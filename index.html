@@ -18,7 +18,25 @@
         <input id="file-input" type="file" accept="image/*">
         <span>Choose or drop a screenshot</span>
       </label>
+      <p class="sub">Your image stays on this device. Use a screenshot showing the complete puzzle board.</p>
       <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" id="palette-panel">
+      <h2>Your ten disc colours</h2>
+      <p class="sub">Choose a base colour and optional black and/or white stripes for each disc. Changes save on this device and update the mapping. Matching uses the inverse screenshot colour; stripes identify the physical discs.</p>
+      <div id="palette-colors"></div>
+      <div class="actions">
+        <button id="palette-export" type="button">Export palette</button>
+        <label class="import-label">Import palette <input id="palette-import" type="file" accept="application/json,.json"></label>
+        <button id="palette-share" type="button">Share palette link</button>
+        <button id="palette-reset" type="button">Reset to repo default</button>
+      </div>
+      <input id="palette-link" type="url" readonly hidden aria-label="Shareable palette link">
+      <p id="palette-status" class="status" role="status" aria-live="polite"></p>
+      <details><summary>Save as the repository default</summary>
+        <p>Export your palette, then run <code>make palette-default PALETTE=/path/to/palette.json</code> in the checkout. Commit the updated <code>src/default-palette.js</code> to publish it.</p>
+      </details>
     </section>
 
     <section class="panel" id="preview-panel" hidden>
@@ -27,15 +45,19 @@
     </section>
 
     <section class="panel" id="result-panel" hidden>
-      <h2>Extracted grid</h2>
+      <h2>Extracted puzzle stacks</h2>
+      <p>Build each stack from position 1 at the bottom, working upwards.</p>
+      <p id="result-warning" class="warning" role="status"></p>
       <div id="grid" class="grid"></div>
 
-      <h2>Disc mapping</h2>
+      <h2>Physical disc stacks</h2>
       <div id="discs" class="grid"></div>
 
-      <h2>JSON</h2>
-      <pre id="json"></pre>
-      <button id="copy-json" type="button">Copy JSON</button>
+      <details>
+        <summary>JSON export</summary>
+        <pre id="json"></pre>
+        <button id="copy-json" type="button">Copy JSON</button>
+      </details>
     </section>
   </main>
 

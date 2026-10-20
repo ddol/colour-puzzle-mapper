@@ -29,11 +29,11 @@ function synthImage(tubes, { cols, slotsPerTube, cell = 40, slotH = 10 }) {
   return { img: { data, width, height }, layout, slotH };
 }
 
-test('gridFromManual produces rows × cols tubes with ordered slots', () => {
+test('gridFromManual produces rows × cols tubes with bottom-first slots', () => {
   const layout = gridFromManual({ board: { x: 0, y: 0, w: 400, h: 300 }, rows: 3, cols: 4, slotsPerTube: 4 });
   assert.equal(layout.tubes.length, 12);
   assert.equal(layout.tubes[0].slots.length, 4);
-  assert.ok(layout.tubes[0].slots[0].y < layout.tubes[0].slots[3].y);
+  assert.ok(layout.tubes[0].slots[0].y > layout.tubes[0].slots[3].y);
 });
 
 test('sample → cluster recovers a synthetic grid', () => {

@@ -5,7 +5,9 @@
   "description": "Static single-page app: upload a daily colour-puzzle screenshot, extract the tube grid, map it to physical disc colours.",
   "type": "module",
   "scripts": {
-    "start": "npx --yes serve .",
+    "start": "node scripts/dev.js",
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\""
   },
   "engines": {
