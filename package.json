@@ -1,0 +1,15 @@
+{
+  "name": "colour-puzzle-mapper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static single-page app: upload a daily colour-puzzle screenshot, extract the tube grid, map it to physical disc colours.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve .",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=21"
+  },
+  "license": "Apache-2.0"
+}
