@@ -7,9 +7,10 @@ physically printed discs.
 - **No framework or dependencies.** Vanilla ES modules + Canvas API; a small
   Node script packages the public files for deployment.
 - **Runs entirely in the browser.** Screenshots are never uploaded anywhere.
-- **Discs are the inverse** of each screenshot colour, snapped to the nearest
-  printed disc colour (ΔE in Lab space). The mapping is not 1:1, so colliding
-  colours are reported.
+- **Match the screenshot colours directly** to the nearest printed disc colour
+  (ΔE in Lab space); colliding colours are reported.
+- **Reverse each stack's occupied discs** so the next digital bottom disc is
+  accessible from the physical top. RGB colour channels are never inverted.
 
 ## Run locally
 
@@ -30,6 +31,8 @@ browser decodes it locally into a canvas capped at 720 × 1200 pixels, locates
 repeated slot shapes, and outlines the detected
 slots in the preview. The results show the original colours and mapped physical
 discs as stacks. Position **1 is the bottom disc**; work upwards to build the stack.
+After a successful upload, the page scrolls to the physical output (respecting
+reduced-motion preferences). Palette edits update the result without scrolling.
 
 Only one image loads at a time; files over 25 MB are rejected. The app releases the
 original image and its object URL after drawing, and avoids an extra preview canvas
@@ -44,14 +47,15 @@ need a future manual override. Review the outlines and colour-count warnings.
 
 ## Disc palette
 
-The editor always contains ten disc colours. Each colour has a name, native colour
-picker opened by tapping the disc, and independent **black stripe** and
+The editor always contains ten disc colours. Each colour has a name, a colour
+dialog opened by tapping the disc, and independent **black stripe** and
 **white stripe** checkboxes in compact columns (neither,
-either one, or both). Changes immediately update stacks and save in local storage.
-Matching uses the base colour only, via the existing inverse-colour Lab distance;
-stripes identify physical discs and appear in the output. The editor uses one shared
-native colour picker and saves/remaps after the colour selection is committed,
-rather than rebuilding results during every picker movement. Duplicate/nearby base
+either one, or both). Saved changes update stacks and local storage.
+Matching compares the screenshot RGB directly to the base disc colour in Lab space;
+stripes identify physical discs and appear in the output. The shared on-page
+colour dialog supports RGB sliders and a six-digit hex field. **Save colour**
+commits the choice; **Cancel** leaves the palette unchanged. It does not depend
+on opening a hidden native colour input, which was unreliable on iOS. Duplicate/nearby base
 colours can map to the same disc; collisions are shown above the stacks.
 
 - **Export palette** downloads versioned `palette.json`; **Import palette** loads it.
@@ -84,8 +88,10 @@ src/image.js         File → ImageData (browser only)
 src/detect.js        board / tube / slot geometry (+ manual grid fallback)
 src/sample.js        median colour per slot, empty-slot detection
 src/cluster.js       ΔE clustering → labelled grid
-src/color.js         pure colour maths (invert, Lab, ΔE, HSV, median)
-src/discs.js         inverse→nearest-disc mapping
+src/color.js         pure colour maths (RGB, Lab, ΔE, HSV, median)
+src/discs.js         direct screenshot→nearest-disc colour mapping
+src/stacks.js        reverse occupied stack order; keep empty space at the top
+src/color-picker.js  accessible RGB/hex colour dialog
 src/default-palette.js checked-in ten-colour default
 src/palette.js       validation, JSON/query encoding, stripe backgrounds
 src/palette-ui.js    colour editor, local storage, import/export/share
@@ -102,9 +108,13 @@ fixture at three sizes, including both empty tubes and all ten colours.
 ## Conventions
 
 - Slot order is **bottom → top** within a tube; tubes are row-major.
-- `null` means an empty slot.
-- Output JSON: `{ layout, order, grid, colors, counts, discs, stacks, palette, collisions }`
-  with `order: "bottom-to-top"`. `stacks` includes disc identities, colours and stripes..
+- `null` means an empty slot. Physical stacks keep empty slots above the discs.
+- Digital tubes empty from the bottom, physical stacks from the top. Thus a
+  digital bottom-to-top `[A, B, C, D]` becomes physical `[D, C, B, A]`.
+- Output JSON: `{ layout, order, grid, physicalGrid, colors, counts, discs, stacks, palette, collisions }`
+  with `order: "bottom-to-top"`. `grid` preserves the screenshot order;
+  `physicalGrid` reverses the occupied labels. `stacks` follows `physicalGrid`
+  and includes disc identities, colours and stripes.
 
 ## Status
 

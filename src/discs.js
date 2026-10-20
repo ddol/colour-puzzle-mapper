@@ -1,10 +1,5 @@
-// Physical disc palette and screenshot → disc mapping.
-//
-// Discs are the *inverse* of the screenshot colour, then snapped to the
-// nearest colour we actually have printed. Not 1:1: two puzzle colours may
-// land on the same disc, which mapToDiscs() reports as a collision.
-
-import { hexToRgb, invert, rgbToLab, deltaE } from './color.js';
+// Match screenshot colours directly to the physical disc palette.
+import { hexToRgb, rgbToLab, deltaE } from './color.js';
 
 /**
  * Printed disc set. PLACEHOLDER values: replace with the real disc colours
@@ -26,18 +21,17 @@ export function nearestDisc(rgb, palette = DISC_PALETTE) {
 }
 
 /**
- * Map each distinct puzzle colour (label → RGB) to a disc via its inverse.
+ * Map each distinct puzzle colour (label → RGB) to the nearest disc colour.
  * @param {Record<string, [number, number, number]>} puzzleColors
- * @returns {{ mapping: Record<string, { inverse: number[], disc: object, distance: number }>,
+ * @returns {{ mapping: Record<string, { disc: object, distance: number }>,
  *             collisions: Record<string, string[]> }}
  */
 export function mapToDiscs(puzzleColors, palette = DISC_PALETTE) {
   const mapping = {};
   const byDisc = {};
   for (const [label, rgb] of Object.entries(puzzleColors)) {
-    const inv = invert(rgb);
-    const { disc, distance } = nearestDisc(inv, palette);
-    mapping[label] = { inverse: inv, disc, distance };
+    const { disc, distance } = nearestDisc(rgb, palette);
+    mapping[label] = { disc, distance };
     (byDisc[disc.id] ??= []).push(label);
   }
   const collisions = Object.fromEntries(Object.entries(byDisc).filter(([, labels]) => labels.length > 1));

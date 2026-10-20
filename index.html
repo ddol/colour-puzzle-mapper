@@ -24,7 +24,7 @@
 
     <section class="panel" id="palette-panel">
       <h2>Your ten disc colours</h2>
-      <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Matching uses the inverse screenshot colour.</p>
+      <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Screenshot colours are matched directly; physical stack order is reversed.</p>
       <div class="palette-head" aria-hidden="true">
         <span>Disc</span><span>Colour</span><span>Name</span><span>Black</span><span>White</span>
       </div>
@@ -49,12 +49,15 @@
 
     <section class="panel" id="result-panel" hidden>
       <h2>Extracted puzzle stacks</h2>
-      <p>Build each stack from position 1 at the bottom, working upwards.</p>
-      <p id="result-warning" class="warning" role="status"></p>
+      <p>Screenshot order, with position 1 at the digital bottom.</p>
       <div id="grid" class="grid"></div>
 
-      <h2>Physical disc stacks</h2>
-      <div id="discs" class="grid"></div>
+      <section id="physical-output" tabindex="-1" aria-labelledby="physical-title">
+        <h2 id="physical-title">Physical disc stacks</h2>
+        <p>Build from position 1 at the bottom. The order is reversed so the next digital bottom disc is on top of your physical stack.</p>
+        <p id="result-warning" class="warning" role="status"></p>
+        <div id="discs" class="grid"></div>
+      </section>
 
       <details>
         <summary>JSON export</summary>
@@ -64,6 +67,29 @@
     </section>
   </main>
 
+  <dialog id="color-dialog" aria-labelledby="color-title">
+    <form id="color-form">
+      <h2 id="color-title">Disc colour</h2>
+      <div id="color-preview" class="color-preview" aria-hidden="true"></div>
+      <label class="hex-label" for="disc-hex">Hex colour
+        <input id="disc-hex" type="text" maxlength="7" spellcheck="false" autocapitalize="off" autocomplete="off" pattern="#[0-9A-Fa-f]{6}" required aria-describedby="color-error">
+      </label>
+      <label class="color-channel" for="disc-red">Red <output id="disc-red-value" for="disc-red"></output>
+        <input id="disc-red" type="range" min="0" max="255" step="1">
+      </label>
+      <label class="color-channel" for="disc-green">Green <output id="disc-green-value" for="disc-green"></output>
+        <input id="disc-green" type="range" min="0" max="255" step="1">
+      </label>
+      <label class="color-channel" for="disc-blue">Blue <output id="disc-blue-value" for="disc-blue"></output>
+        <input id="disc-blue" type="range" min="0" max="255" step="1">
+      </label>
+      <p id="color-error" class="warning" role="status"></p>
+      <div class="actions">
+        <button id="color-save" type="submit">Save colour</button>
+        <button id="color-cancel" type="button">Cancel</button>
+      </div>
+    </form>
+  </dialog>
   <script type="module" src="src/main.js"></script>
 </body>
 </html>
