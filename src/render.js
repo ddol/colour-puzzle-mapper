@@ -8,8 +8,6 @@ export function renderGrid(el, grid, colorOf, cols) {
   grid.forEach((tube, tubeIndex) => {
     const figure = document.createElement('figure');
     figure.className = 'stack';
-    const caption = document.createElement('figcaption');
-    caption.textContent = `Stack ${tubeIndex + 1}`;
     const stack = document.createElement('ol');
     stack.className = 'tube';
     stack.setAttribute('aria-label', `Stack ${tubeIndex + 1}, bottom to top`);
@@ -19,12 +17,11 @@ export function renderGrid(el, grid, colorOf, cols) {
       const disc = label ? colorOf(label) : null;
       if (disc) slot.style.background = typeof disc === 'string' ? disc : discBackground(disc);
       const text = label ? (typeof disc === 'string' ? label : `${label} · ${disc.id}`) : 'Empty';
-      slot.textContent = `${index + 1} · ${text}`;
       slot.title = `Position ${index + 1} from bottom: ${text}`;
       slot.setAttribute('aria-label', slot.title);
       stack.append(slot);
     });
-    figure.append(caption, stack);
+    figure.append(stack);
     el.append(figure);
   });
 }
@@ -41,7 +38,10 @@ export function renderMapping(el, colors, mapping) {
     const target = document.createElement('span');
     target.className = 'mapping-target';
     target.style.background = discBackground(disc);
-    item.append(source, `${label} → ${disc.id}`, target);
+    const name = document.createElement('span');
+    name.className = 'mapping-label';
+    name.textContent = `${label} → ${disc.id}`;
+    item.append(source, name, target);
     item.title = `${label} maps to ${disc.id}: ${disc.name}`;
     el.append(item);
   }

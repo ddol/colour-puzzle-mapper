@@ -30,7 +30,10 @@ Choose an image using the file picker or drag it onto the upload area. The
 browser decodes it locally into a canvas capped at 720 × 1200 pixels, locates
 repeated slot shapes, and outlines the detected
 slots in the preview. The results show the original colours and mapped physical
-discs as stacks. Position **1 is the bottom disc**; work upwards to build the stack.
+discs as compact, unlabelled stacks. Build each stack from the bottom upwards.
+Discs are 24 px tall and overlap by 5%; source and target swatches align in a
+two-column legend. Stack/disc labels remain available to screen readers and on
+hover, and the JSON export keeps all positions and IDs.
 After a successful upload, the page scrolls to the physical output (respecting
 reduced-motion preferences). Palette edits update the result without scrolling.
 
@@ -81,7 +84,9 @@ RGB and hex edits stay synchronized. **Save colour** commits the choice;
   file before writing; a static hosted webpage cannot directly write to the repo.
   Saved local palettes keep their settings until reset.
 
-The initial default values are examples; replace them with your printed disc colours.
+The checked-in default uses Amber, Lime, Red, Orange, Yellow, Green, Cyan, Blue,
+Purple and Pink. Yellow has black and white stripes; Purple and Pink have white
+stripes, matching the supplied palette.
 
 ## Layout
 
