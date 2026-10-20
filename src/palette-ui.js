@@ -28,36 +28,65 @@ export function setupPalette(onChange) {
     } catch { message('Local storage is unavailable. Export your palette to keep it.'); }
     onChange(palette);
   }
+  // A single stable native picker avoids ten Safari colour wells. Only the
+  // selected disc previews input events; save/remap once the picker commits.
+  const picker = document.createElement('input');
+  picker.type = 'color';
+  picker.className = 'shared-color-picker';
+  picker.tabIndex = -1;
+  picker.setAttribute('aria-label', 'Selected disc colour');
+  $('palette-panel').append(picker);
+  let activeColor = null;
+  picker.addEventListener('input', () => {
+    if (!activeColor) return;
+    activeColor.disc.hex = picker.value;
+    activeColor.swatch.style.background = discBackground(activeColor.disc);
+  });
+  picker.addEventListener('change', () => {
+    if (!activeColor) return;
+    activeColor.disc.hex = picker.value;
+    activeColor.swatch.style.background = discBackground(activeColor.disc);
+    save();
+  });
   function render() {
+    activeColor = null;
     $('palette-colors').replaceChildren();
     for (const [i, disc] of palette.entries()) {
       const row = document.createElement('div');
       row.className = 'palette-color';
-      const swatch = document.createElement('span');
+      const swatch = document.createElement('button');
+      swatch.type = 'button';
+      swatch.setAttribute('aria-label', `Colour ${i + 1} base colour`);
+      swatch.title = 'Change disc colour';
       swatch.className = 'palette-swatch';
       const refresh = () => { swatch.style.background = discBackground(disc); save(); };
       swatch.style.background = discBackground(disc);
       const number = document.createElement('strong');
       number.textContent = disc.id;
       const name = document.createElement('input');
+      name.className = 'palette-name';
       name.value = disc.name; name.maxLength = 40;
       name.setAttribute('aria-label', `Colour ${i + 1} name`);
       name.addEventListener('change', () => {
         disc.name = name.value.trim() || `Colour ${i + 1}`;
         name.value = disc.name; refresh();
       });
-      const color = document.createElement('input');
-      color.type = 'color'; color.value = disc.hex;
-      color.setAttribute('aria-label', `Colour ${i + 1} base colour`);
-      color.addEventListener('input', () => { disc.hex = color.value; refresh(); });
-      row.append(number, swatch, name, color);
+      swatch.addEventListener('click', () => {
+        activeColor = { disc, swatch };
+        picker.value = disc.hex;
+        picker.click();
+      });
+      row.append(number, swatch, name);
       for (const [key, labelText] of [['blackStripe', 'Black stripe'], ['whiteStripe', 'White stripe']]) {
         const label = document.createElement('label');
+        label.className = 'stripe-option';
+        label.title = labelText;
         const check = document.createElement('input');
         check.type = 'checkbox'; check.checked = disc[key];
         check.setAttribute('aria-label', `Colour ${i + 1} ${labelText.toLowerCase()}`);
         check.addEventListener('change', () => { disc[key] = check.checked; refresh(); });
-        label.append(check, labelText); row.append(label);
+        label.append(check);
+        row.append(label);
       }
       $('palette-colors').append(row);
     }
