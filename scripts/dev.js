@@ -11,7 +11,7 @@ const port = Number(values.port);
 if (!Number.isInteger(port) || port < 0 || port > 65535) {
   throw new Error('Port must be an integer between 0 and 65535');
 }
-const types = { html: 'text/html; charset=utf-8', css: 'text/css; charset=utf-8', js: 'text/javascript; charset=utf-8', jpg: 'image/jpeg' };
+const types = { html: 'text/html; charset=utf-8', css: 'text/css; charset=utf-8', js: 'text/javascript; charset=utf-8', jpg: 'image/jpeg', svg: 'image/svg+xml' };
 const server = createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) {
     response.writeHead(405, { Allow: 'GET, HEAD' }).end();

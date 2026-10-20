@@ -7,13 +7,17 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
+  <header class="site-header">
     <nav class="site-nav" aria-label="Main navigation">
-      <a href="https://www.reddit.com/r/ColorPuzzleGame/">r/ColorPuzzleGame</a>
-      <a href="screen-free.html">The screen-free setup</a>
+      <a class="site-brand" href="index.html" aria-current="page"><span>Colour Puzzle</span> <span>Mapper</span></a>
+      <a class="story-link" href="screen-free.html">The story</a>
+      <a class="reddit-link" href="https://www.reddit.com/r/ColorPuzzleGame/" aria-label="r/ColorPuzzleGame on Reddit">
+        <img src="images/reddit.svg" width="24" height="24" alt="">
+        <span class="reddit-name">r/ColorPuzzleGame</span>
+      </a>
     </nav>
-    <h1>Colour Puzzle Mapper</h1>
-    <p class="sub">Upload today's puzzle screenshot to get the matching disc layout.</p>
+    <h1 class="sr-only">Colour Puzzle Mapper</h1>
+    <p class="sub mapper-intro">Try the example below, or upload today’s puzzle screenshot.</p>
   </header>
 
   <main>
