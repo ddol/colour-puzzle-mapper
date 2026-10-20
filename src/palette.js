@@ -29,9 +29,4 @@ export function decodePalette(text) {
 export function defaultPalette() {
   return validatePalette(palettePayload(DEFAULT_PALETTE));
 }
-export function discBackground(disc) {
-  const stripes = [];
-  if (disc.blackStripe) stripes.push('linear-gradient(90deg, transparent 27%, #000 27% 39%, transparent 39%)');
-  if (disc.whiteStripe) stripes.push('linear-gradient(90deg, transparent 61%, #fff 61% 73%, transparent 73%)');
-  return [...stripes, disc.hex].join(', ');
-}
+export { discBackground } from './disc-art.js';

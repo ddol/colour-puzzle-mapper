@@ -12,7 +12,7 @@ test('all four stripe options round-trip through JSON and the palette GET parame
   url.searchParams.set('palette', encodePalette(palette));
   assert.deepEqual(decodePalette(new URL(url).searchParams.get('palette')), palette);
   assert.equal(url.searchParams.get('other'), '1');
-  assert.match(discBackground(palette[3]), /#000.*#fff/);
+  assert.match(discBackground(palette[3]), /%23000000.*%23ffffff/);
 });
 test('validate exact palette length, hex colours, names, stripes, version and size', () => {
   const payload = JSON.parse(encodePalette(defaultPalette()));

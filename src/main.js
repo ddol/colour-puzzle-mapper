@@ -50,11 +50,15 @@ async function handleFile(file) {
   currentResult = null;
   $('result-panel').hidden = true;
   $('preview-panel').hidden = true;
+  $('extracted-panel').hidden = true;
+  $('inspection-panel').hidden = true;
+  $('inspection-panel').open = false;
   status.textContent = 'Reading image…';
   let img;
   try {
     img = await loadImage(file, $('preview'));
     $('preview-panel').hidden = false;
+    $('inspection-panel').hidden = false;
   } catch (err) {
     status.textContent = `Could not read the image: ${err.message}`;
     return;
@@ -98,6 +102,7 @@ function renderResult() {
   const { mapping } = mapToDiscs(colors, palette);
   const physicalGrid = reverseStacks(grid);
   renderGrid($('grid'), grid, label => hex(colors[label]), layout.cols);
+  $('extracted-panel').hidden = false;
   renderGrid($('discs'), physicalGrid, label => mapping[label].disc, layout.cols);
   renderMapping($('mapping-legend'), colors, mapping);
   renderJson($('json'), {

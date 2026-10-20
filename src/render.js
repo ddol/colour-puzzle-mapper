@@ -15,7 +15,10 @@ export function renderGrid(el, grid, colorOf, cols) {
       const slot = document.createElement('li');
       slot.className = label ? 'slot' : 'slot empty';
       const disc = label ? colorOf(label) : null;
-      if (disc) slot.style.background = typeof disc === 'string' ? disc : discBackground(disc);
+      if (disc) {
+        if (typeof disc !== 'string') slot.classList.add('physical-disc');
+        slot.style.background = typeof disc === 'string' ? disc : discBackground(disc);
+      }
       const text = label ? (typeof disc === 'string' ? label : `${label} · ${disc.id}`) : 'Empty';
       slot.title = `Position ${index + 1} from bottom: ${text}`;
       slot.setAttribute('aria-label', slot.title);
@@ -36,7 +39,7 @@ export function renderMapping(el, colors, mapping) {
     source.className = 'mapping-source';
     source.style.background = rgbToHex(colors[label]);
     const target = document.createElement('span');
-    target.className = 'mapping-target';
+    target.className = 'mapping-target physical-disc';
     target.style.background = discBackground(disc);
     const name = document.createElement('span');
     name.className = 'mapping-label';
