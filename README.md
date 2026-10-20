@@ -26,9 +26,15 @@ starts the dev server). The server reads source files on each request; refresh
 the browser after editing. It only serves public assets.
 
 Choose an image using the file picker or drag it onto the upload area. The
-browser decodes it locally, locates repeated slot shapes, and outlines the detected
+browser decodes it locally into a canvas capped at 720 × 1200 pixels, locates
+repeated slot shapes, and outlines the detected
 slots in the preview. The results show the original colours and mapped physical
 discs as stacks. Position **1 is the bottom disc**; work upwards to build the stack.
+
+Only one image loads at a time; files over 25 MB are rejected. The app releases the
+original image and its object URL after drawing, and avoids an extra preview canvas
+to reduce memory pressure on mobile browsers. Repeated selection of the same file
+is supported.
 
 Detection is tuned to the supplied dark-board screenshot: a regular grid with four
 slots per tube. It tolerates different screenshot sizes and includes empty tubes
@@ -39,10 +45,13 @@ need a future manual override. Review the outlines and colour-count warnings.
 ## Disc palette
 
 The editor always contains ten disc colours. Each colour has a name, native colour
-picker, and independent **black stripe** and **white stripe** options (neither,
+picker opened by tapping the disc, and independent **black stripe** and
+**white stripe** checkboxes in compact columns (neither,
 either one, or both). Changes immediately update stacks and save in local storage.
 Matching uses the base colour only, via the existing inverse-colour Lab distance;
-stripes identify physical discs and appear in the output. Duplicate/nearby base
+stripes identify physical discs and appear in the output. The editor uses one shared
+native colour picker and saves/remaps after the colour selection is committed,
+rather than rebuilding results during every picker movement. Duplicate/nearby base
 colours can map to the same disc; collisions are shown above the stacks.
 
 - **Export palette** downloads versioned `palette.json`; **Import palette** loads it.

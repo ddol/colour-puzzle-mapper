@@ -13,7 +13,7 @@ const $ = (id) => document.getElementById(id);
 const fileInput = $('file-input');
 const drop = document.querySelector('.drop');
 const status = $('status');
-let uploadVersion = 0;
+let loadingImage = false;
 let currentResult = null;
 const getPalette = setupPalette(() => renderResult());
 
@@ -42,25 +42,26 @@ $('copy-json').addEventListener('click', async () => {
 });
 
 async function handleFile(file) {
-  const version = ++uploadVersion;
+  if (loadingImage) return;
+  loadingImage = true;
+  fileInput.disabled = true;
+  drop.setAttribute('aria-busy', 'true');
   currentResult = null;
   $('result-panel').hidden = true;
   $('preview-panel').hidden = true;
   status.textContent = 'Reading image…';
   let img;
   try {
-    const canvas = document.createElement('canvas');
-    img = await loadImage(file, canvas);
-    if (version !== uploadVersion) return;
-    const preview = $('preview');
-    preview.width = canvas.width;
-    preview.height = canvas.height;
-    preview.getContext('2d').drawImage(canvas, 0, 0);
+    img = await loadImage(file, $('preview'));
     $('preview-panel').hidden = false;
   } catch (err) {
-    if (version !== uploadVersion) return;
     status.textContent = `Could not read the image: ${err.message}`;
     return;
+  } finally {
+    loadingImage = false;
+    fileInput.disabled = false;
+    fileInput.value = '';
+    drop.removeAttribute('aria-busy');
   }
   try {
     const layout = detectLayout(img);
