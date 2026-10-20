@@ -1,6 +1,6 @@
 # colour-puzzle-mapper
 
-Static single-page app (GitHub Pages) that takes a screenshot of the daily
+Static web app (GitHub Pages) that takes a screenshot of the daily
 colour-sort puzzle, extracts the tube grid, and maps each colour to our
 physically printed discs.
 
@@ -30,6 +30,8 @@ Choose an image using the file picker or drag it onto the upload area. The main
 flow is **upload → physical output**. The ten-colour editor stays in a closed
 palette drawer. The screenshot preview and extracted colours share a second,
 closed drawer below the output; expand it when you want to inspect detection.
+The top navigation links to r/ColorPuzzleGame and a companion post at
+`screen-free.html`, with photos of the physical setup and the story behind it.
 
 The browser decodes the image locally into a canvas capped at 720 × 1200 pixels, locates
 repeated slot shapes, and outlines the detected
@@ -93,13 +95,15 @@ RGB and hex edits stay synchronized. **Save colour** commits the choice;
   Saved local palettes keep their settings until reset.
 
 The checked-in default uses Amber, Lime, Red, Orange, Yellow, Green, Cyan, Blue,
-Purple and Pink. Yellow has black and white stripes; Purple and Pink have white
+Purple and Pink. Yellow has black and white stripes; Orange and Purple have white
 stripes, matching the supplied palette.
 
 ## Layout
 
 ```
 index.html           upload UI, preview, results
+screen-free.html     screen-free setup blog post
+images/              published photos of the physical setup
 styles.css
 src/main.js          wiring: file → canvas → detect → sample → cluster → map → render
 src/render.js        DOM rendering: grid + disc mapping
@@ -152,8 +156,9 @@ fixture at three sizes, including both empty tubes and all ten colours.
 
 Pull requests and pushes to `main` run tests, build `_site/`, and retain the
 generated site as the `web-assets` CI artifact. The build contains only
-`index.html`, `styles.css`, `src/`, and `.nojekyll`; screenshots, fixtures,
-tests, and repository metadata are excluded. Relative asset paths support
+`index.html`, `screen-free.html`, `styles.css`, `src/`, `images/`, and `.nojekyll`;
+uploaded screenshots, fixtures, tests, and repository metadata are excluded.
+The two setup photos in `images/` are intentionally public. Relative asset paths support
 GitHub Pages project URLs.
 
 Pushes to `main` (or a manual workflow run) test and build the site, then deploy

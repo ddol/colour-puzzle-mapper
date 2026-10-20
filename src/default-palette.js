@@ -10,7 +10,7 @@ export const DEFAULT_PALETTE = [
   {
     "id": "D02",
     "name": "Lime",
-    "hex": "#86ff4f",
+    "hex": "#b2ff2b",
     "blackStripe": false,
     "whiteStripe": false
   },
@@ -26,19 +26,19 @@ export const DEFAULT_PALETTE = [
     "name": "Orange",
     "hex": "#f75500",
     "blackStripe": false,
-    "whiteStripe": false
+    "whiteStripe": true
   },
   {
     "id": "D05",
     "name": "Yellow",
-    "hex": "#e4af49",
+    "hex": "#ffea00",
     "blackStripe": true,
     "whiteStripe": true
   },
   {
     "id": "D06",
     "name": "Green",
-    "hex": "#005e00",
+    "hex": "#008400",
     "blackStripe": false,
     "whiteStripe": false
   },
@@ -59,7 +59,7 @@ export const DEFAULT_PALETTE = [
   {
     "id": "D09",
     "name": "Purple",
-    "hex": "#430039",
+    "hex": "#450d59",
     "blackStripe": false,
     "whiteStripe": true
   },
@@ -68,6 +68,6 @@ export const DEFAULT_PALETTE = [
     "name": "Pink",
     "hex": "#f72585",
     "blackStripe": false,
-    "whiteStripe": true
+    "whiteStripe": false
   }
 ];
