@@ -26,13 +26,21 @@ commands are `npm run dev`, `npm test`, and `npm run build` (`npm start` also
 starts the dev server). The server reads source files on each request; refresh
 the browser after editing. It only serves public assets.
 
-Choose an image using the file picker or drag it onto the upload area. The
-browser decodes it locally into a canvas capped at 720 × 1200 pixels, locates
+Choose an image using the file picker or drag it onto the upload area. The main
+flow is **upload → physical output**. The ten-colour editor stays in a closed
+palette drawer. The screenshot preview and extracted colours share a second,
+closed drawer below the output; expand it when you want to inspect detection.
+
+The browser decodes the image locally into a canvas capped at 720 × 1200 pixels, locates
 repeated slot shapes, and outlines the detected
 slots in the preview. The results show the original colours and mapped physical
 discs as compact, unlabelled stacks. Build each stack from the bottom upwards.
-Discs are 24 px tall and overlap by 5%; source and target swatches align in a
-two-column legend. Stack/disc labels remain available to screen readers and on
+Discs are 24 px tall and overlap by 5%. Their SVG artwork has a transparent
+centre bore and a shaded acrylic rim, based on the physical discs. Each enabled
+stripe colour has eight marks around the full rim: four are visible on the front.
+With black and white enabled, eight alternating marks are visible. Markings stay
+on the rim, leaving the top face solid. The palette editor, modal and legend use
+the same artwork. Legend entries use 3 px inner gaps and a 28 px column gap. Stack/disc labels remain available to screen readers and on
 hover, and the JSON export keeps all positions and IDs.
 After a successful upload, the page scrolls to the physical output (respecting
 reduced-motion preferences). Palette edits update the result without scrolling.
@@ -50,7 +58,7 @@ need a future manual override. Review the outlines and colour-count warnings.
 
 ## Disc palette
 
-The editor always contains ten disc colours. Each colour has a name, a colour
+Expand **Your ten disc colours** to edit the palette. The editor always contains ten disc colours. Each colour has a name, a colour
 dialog opened by tapping the disc, and independent **black stripe** and
 **white stripe** checkboxes in compact columns (neither,
 either one, or both). Saved changes update stacks and local storage.
@@ -104,7 +112,8 @@ src/discs.js         consistent one-to-one screenshot-label→disc-ID mapping
 src/stacks.js        reverse occupied stack order; keep empty space at the top
 src/color-picker.js  native OS picker plus accessible RGB/hex colour dialog
 src/default-palette.js checked-in ten-colour default
-src/palette.js       validation, JSON/query encoding, stripe backgrounds
+src/palette.js       validation and JSON/query encoding
+src/disc-art.js      shared SVG discs with rim markers and transparent bores
 src/palette-ui.js    colour editor, local storage, import/export/share
 fixtures/            sample screenshots (named by puzzle date)
 test/                node:test unit tests

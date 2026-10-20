@@ -22,36 +22,7 @@
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </section>
 
-    <section class="panel" id="palette-panel">
-      <h2>Your ten disc colours</h2>
-      <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Each screenshot colour gets its own disc, in palette order. Physical stack order is reversed.</p>
-      <div class="palette-head" aria-hidden="true">
-        <span>Disc</span><span>Colour</span><span>Name</span><span>Black</span><span>White</span>
-      </div>
-      <div id="palette-colors"></div>
-      <div class="actions">
-        <button id="palette-export" type="button">Export palette</button>
-        <label class="import-label">Import palette <input id="palette-import" type="file" accept="application/json,.json"></label>
-        <button id="palette-share" type="button">Share palette link</button>
-        <button id="palette-reset" type="button">Reset to repo default</button>
-      </div>
-      <input id="palette-link" type="url" readonly hidden aria-label="Shareable palette link">
-      <p id="palette-status" class="status" role="status" aria-live="polite"></p>
-      <details><summary>Save as the repository default</summary>
-        <p>Export your palette, then run <code>make palette-default PALETTE=/path/to/palette.json</code> in the checkout. Commit the updated <code>src/default-palette.js</code> to publish it.</p>
-      </details>
-    </section>
-
-    <section class="panel" id="preview-panel" hidden>
-      <h2>Screenshot</h2>
-      <canvas id="preview"></canvas>
-    </section>
-
     <section class="panel" id="result-panel" hidden>
-      <h2>Extracted puzzle stacks</h2>
-      <p>Screenshot order, with position 1 at the digital bottom.</p>
-      <div id="grid" class="grid"></div>
-
       <section id="physical-output" tabindex="-1" aria-labelledby="physical-title">
         <h2 id="physical-title">Physical disc stacks</h2>
         <p>Build bottom to top; take discs from the top.</p>
@@ -66,12 +37,49 @@
         <button id="copy-json" type="button">Copy JSON</button>
       </details>
     </section>
+    <details class="panel drawer" id="inspection-panel" hidden>
+      <summary>Screenshot &amp; extracted colours</summary>
+      <div class="drawer-content">
+        <section id="preview-panel" hidden>
+          <h2>Screenshot</h2>
+          <canvas id="preview"></canvas>
+        </section>
+        <section id="extracted-panel" hidden>
+          <h2>Extracted colours</h2>
+          <p class="sub">Screenshot order, bottom to top.</p>
+          <div id="grid" class="grid"></div>
+        </section>
+      </div>
+    </details>
+
+    <details class="panel drawer" id="palette-panel">
+      <summary>Your ten disc colours</summary>
+      <div class="drawer-content">
+        <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Each screenshot colour gets its own disc, in palette order. Physical stack order is reversed.</p>
+        <div class="palette-head" aria-hidden="true">
+          <span>Disc</span><span>Colour</span><span>Name</span><span>Black</span><span>White</span>
+        </div>
+        <div id="palette-colors"></div>
+        <div class="actions">
+          <button id="palette-export" type="button">Export palette</button>
+          <label class="import-label">Import palette <input id="palette-import" type="file" accept="application/json,.json"></label>
+          <button id="palette-share" type="button">Share palette link</button>
+          <button id="palette-reset" type="button">Reset to repo default</button>
+        </div>
+        <input id="palette-link" type="url" readonly hidden aria-label="Shareable palette link">
+        <p id="palette-status" class="status" role="status" aria-live="polite"></p>
+        <details><summary>Save as the repository default</summary>
+          <p>Export your palette, then run <code>make palette-default PALETTE=/path/to/palette.json</code> in the checkout. Commit the updated <code>src/default-palette.js</code> to publish it.</p>
+        </details>
+      </div>
+    </details>
+
   </main>
 
   <dialog id="color-dialog" aria-labelledby="color-title">
     <form id="color-form">
       <h2 id="color-title">Disc colour</h2>
-      <label id="color-preview" class="color-preview" title="Open system colour picker">
+      <label id="color-preview" class="color-preview physical-disc" title="Open system colour picker">
         <input id="disc-native-color" type="color" aria-label="Choose disc colour with system picker">
       </label>
       <p class="picker-hint">Tap the disc to open the system colour picker.</p>

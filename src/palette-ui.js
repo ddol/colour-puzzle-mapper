@@ -40,7 +40,7 @@ export function setupPalette(onChange) {
       swatch.setAttribute('aria-label', `Colour ${i + 1} base colour`);
       swatch.title = 'Change disc colour';
       swatch.setAttribute('aria-haspopup', 'dialog');
-      swatch.className = 'palette-swatch';
+      swatch.className = 'palette-swatch physical-disc';
       const refresh = () => { swatch.style.background = discBackground(disc); save(); };
       swatch.style.background = discBackground(disc);
       const number = document.createElement('strong');

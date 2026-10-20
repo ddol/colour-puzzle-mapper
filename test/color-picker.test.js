@@ -38,8 +38,8 @@ test('disc colour dialog commits edited RGB/hex to the selected disc, including 
   assert.equal(saved, 0);
   submit(elements);
   assert.equal(disc.hex, '#abcdef');
-  assert.match(swatch.style.background, /#abcdef/);
-  assert.match(swatch.style.background, /#000/);
+  assert.match(swatch.style.background, /%23abcdef/);
+  assert.match(swatch.style.background, /%23000000/);
   assert.equal(saved, 1);
   assert.equal(elements['color-dialog'].open, false);
 
@@ -89,7 +89,7 @@ test('system picker input and change synchronize the modal without saving before
   submit(elements);
   assert.equal(disc.hex, '#cd6789');
   assert.equal(saved, 1);
-  assert.match(swatch.style.background, /#fff/);
+  assert.match(swatch.style.background, /%23ffffff/);
 
   edit(disc, swatch);
   input(elements['disc-hex'], '#00ff00');
