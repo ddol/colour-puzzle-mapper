@@ -1,3 +1,4 @@
+import { setupColorPicker } from './color-picker.js';
 import { defaultPalette, STORAGE_KEY, decodePalette, encodePalette, discBackground } from './palette.js';
 
 export function setupPalette(onChange) {
@@ -28,28 +29,8 @@ export function setupPalette(onChange) {
     } catch { message('Local storage is unavailable. Export your palette to keep it.'); }
     onChange(palette);
   }
-  // A single stable native picker avoids ten Safari colour wells. Only the
-  // selected disc previews input events; save/remap once the picker commits.
-  const picker = document.createElement('input');
-  picker.type = 'color';
-  picker.className = 'shared-color-picker';
-  picker.tabIndex = -1;
-  picker.setAttribute('aria-label', 'Selected disc colour');
-  $('palette-panel').append(picker);
-  let activeColor = null;
-  picker.addEventListener('input', () => {
-    if (!activeColor) return;
-    activeColor.disc.hex = picker.value;
-    activeColor.swatch.style.background = discBackground(activeColor.disc);
-  });
-  picker.addEventListener('change', () => {
-    if (!activeColor) return;
-    activeColor.disc.hex = picker.value;
-    activeColor.swatch.style.background = discBackground(activeColor.disc);
-    save();
-  });
+  const editColor = setupColorPicker(() => save());
   function render() {
-    activeColor = null;
     $('palette-colors').replaceChildren();
     for (const [i, disc] of palette.entries()) {
       const row = document.createElement('div');
@@ -58,6 +39,7 @@ export function setupPalette(onChange) {
       swatch.type = 'button';
       swatch.setAttribute('aria-label', `Colour ${i + 1} base colour`);
       swatch.title = 'Change disc colour';
+      swatch.setAttribute('aria-haspopup', 'dialog');
       swatch.className = 'palette-swatch';
       const refresh = () => { swatch.style.background = discBackground(disc); save(); };
       swatch.style.background = discBackground(disc);
@@ -72,9 +54,7 @@ export function setupPalette(onChange) {
         name.value = disc.name; refresh();
       });
       swatch.addEventListener('click', () => {
-        activeColor = { disc, swatch };
-        picker.value = disc.hex;
-        picker.click();
+        editColor(disc, swatch);
       });
       row.append(number, swatch, name);
       for (const [key, labelText] of [['blackStripe', 'Black stripe'], ['whiteStripe', 'White stripe']]) {

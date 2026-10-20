@@ -4,7 +4,6 @@ import { gridFromManual } from '../src/detect.js';
 import { sampleLayout, isEmptySlot } from '../src/sample.js';
 import { clusterColors, labelFor } from '../src/cluster.js';
 import { mapToDiscs, nearestDisc, DISC_PALETTE } from '../src/discs.js';
-import { invert } from '../src/color.js';
 
 /** Build a synthetic ImageData-like image from a grid of RGB (null = empty). */
 function synthImage(tubes, { cols, slotsPerTube, cell = 40, slotH = 10 }) {
@@ -58,9 +57,10 @@ test('labelFor', () => {
   assert.equal(labelFor(26), 'AA');
 });
 
-test('mapToDiscs uses the inverse colour and reports collisions', () => {
-  // Inverse of near-black is near-white.
-  assert.equal(nearestDisc(invert([13, 13, 13])).disc.name, 'White');
+test('mapToDiscs matches colours directly and reports collisions', () => {
+  assert.equal(nearestDisc([13, 13, 13]).disc.name, 'Black');
+  assert.equal(mapToDiscs({ A: [242, 242, 242] }).mapping.A.disc.name, 'White');
+  assert.equal(mapToDiscs({ A: [214, 40, 40] }).mapping.A.disc.name, 'Red');
   const { mapping, collisions } = mapToDiscs({ A: [10, 10, 10], B: [14, 14, 14] });
   assert.equal(mapping.A.disc.id, mapping.B.disc.id);
   assert.deepEqual(collisions[mapping.A.disc.id], ['A', 'B']);

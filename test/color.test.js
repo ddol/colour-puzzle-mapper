@@ -1,10 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { invert, rgbToHex, hexToRgb, rgbToLab, deltaE, rgbToHsv, medianRgb } from '../src/color.js';
+import { rgbToHex, hexToRgb, rgbToLab, deltaE, rgbToHsv, medianRgb } from '../src/color.js';
 
-test('invert flips each channel', () => {
-  assert.deepEqual(invert([0, 128, 255]), [255, 127, 0]);
-});
+
 
 test('hex round-trips', () => {
   assert.equal(rgbToHex([255, 16, 0]), '#ff1000');

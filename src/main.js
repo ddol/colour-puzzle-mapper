@@ -8,6 +8,7 @@ import { mapToDiscs } from './discs.js';
 import { renderGrid, renderJson, hex } from './render.js';
 import { setupPalette } from './palette-ui.js';
 import { palettePayload } from './palette.js';
+import { reverseStacks } from './stacks.js';
 
 const $ = (id) => document.getElementById(id);
 const fileInput = $('file-input');
@@ -76,6 +77,12 @@ async function handleFile(file) {
       for (const slot of tube.slots) context.strokeRect(slot.x, slot.y, slot.w, slot.h);
     }
     status.textContent = `Detected ${layout.rows} rows × ${layout.cols} stacks, ${layout.slotsPerTube} discs per stack. Check the outlined slots and results.`;
+    requestAnimationFrame(() => {
+      const output = $('physical-output');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      output.focus({ preventScroll: true });
+      output.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
   } catch (err) {
     console.error(err);
     status.textContent = `Image loaded. Could not extract the grid: ${err.message}`;
@@ -87,15 +94,16 @@ function renderResult() {
   const { layout, grid, colors, counts } = currentResult;
   const palette = getPalette();
   const { mapping, collisions } = mapToDiscs(colors, palette);
+  const physicalGrid = reverseStacks(grid);
   renderGrid($('grid'), grid, label => hex(colors[label]), layout.cols);
-  renderGrid($('discs'), grid, label => mapping[label].disc, layout.cols);
+  renderGrid($('discs'), physicalGrid, label => mapping[label].disc, layout.cols);
   renderJson($('json'), {
     layout: { rows: layout.rows, cols: layout.cols, slotsPerTube: layout.slotsPerTube },
-    order: 'bottom-to-top', grid,
+    order: 'bottom-to-top', grid, physicalGrid,
     colors: Object.fromEntries(Object.entries(colors).map(([key, value]) => [key, hex(value)])),
     counts,
     discs: Object.fromEntries(Object.entries(mapping).map(([key, value]) => [key, value.disc.id])),
-    stacks: grid.map(tube => tube.map(label => label ? { ...mapping[label].disc } : null)),
+    stacks: physicalGrid.map(tube => tube.map(label => label ? { ...mapping[label].disc } : null)),
     palette: palettePayload(palette), collisions,
   });
   const warnings = [];

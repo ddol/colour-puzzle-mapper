@@ -3,11 +3,6 @@
 /** @typedef {[number, number, number]} RGB  0–255 per channel */
 /** @typedef {[number, number, number]} Lab  CIE L*a*b* (D65) */
 
-/** Inverse (complement) of an sRGB colour. */
-export function invert([r, g, b]) {
-  return [255 - r, 255 - g, 255 - b];
-}
-
 export function rgbToHex([r, g, b]) {
   return '#' + [r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('');
 }

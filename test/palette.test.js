@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { defaultPalette, encodePalette, decodePalette, discBackground } from '../src/palette.js';
 import { mapToDiscs } from '../src/discs.js';
-import { invert, hexToRgb } from '../src/color.js';
+import { hexToRgb } from '../src/color.js';
 
 test('all four stripe options round-trip through JSON and the palette GET parameter', () => {
   const palette = defaultPalette();
@@ -28,7 +28,7 @@ test('validate exact palette length, hex colours, names, stripes, version and si
 test('mapping uses the edited palette and preserves stripe identities', () => {
   const palette = defaultPalette();
   palette[0] = { ...palette[0], hex: '#456789', blackStripe: true, whiteStripe: true };
-  const { mapping } = mapToDiscs({ A: invert(hexToRgb('#456789')) }, palette);
+  const { mapping } = mapToDiscs({ A: hexToRgb('#456789') }, palette);
   assert.deepEqual(mapping.A.disc, palette[0]);
 });
 test('reset returns a fresh independent default palette', () => {
