@@ -1,5 +1,7 @@
 # colour-puzzle-mapper
 
+![The physical colour puzzle set up on its wooden peg board, beside the mapper](images/physical-puzzle.jpg)
+
 Static web app (GitHub Pages) that takes a screenshot of the daily
 colour-sort puzzle, extracts the tube grid, and maps each colour to our
 physically printed discs.
@@ -11,6 +13,10 @@ physically printed discs.
   A → D01, B → D02, …, J → D10. Colours do not need to look similar.
 - **Reverse each stack's occupied discs** so the next digital bottom disc is
   accessible from the physical top. RGB colour channels are never inverted.
+
+[Open the mapper](https://ddol.github.io/colour-puzzle-mapper/) ·
+[Why I made a screen-free version for my kids](https://ddol.github.io/colour-puzzle-mapper/screen-free.html) ·
+[r/ColorPuzzleGame](https://www.reddit.com/r/ColorPuzzleGame/)
 
 ## Run locally
 
@@ -27,11 +33,23 @@ starts the dev server). The server reads source files on each request; refresh
 the browser after editing. It only serves public assets.
 
 Choose an image using the file picker or drag it onto the upload area. The main
-flow is **upload → physical output**. The ten-colour editor stays in a closed
+flow is **upload → physical output**. With no screenshot selected, the checked-in
+`images/example-puzzle.jpg` loads automatically and shows a working example.
+Selecting your own screenshot replaces it. The example leaves the page at the
+top; a successful upload scrolls to the physical output.
+The ten-colour editor stays in a closed
 palette drawer. The screenshot preview and extracted colours share a second,
 closed drawer below the output; expand it when you want to inspect detection.
 The top navigation links to r/ColorPuzzleGame and a companion post at
 `screen-free.html`, with photos of the physical setup and the story behind it.
+Both pages use the same header: mapper first, story second, and a Reddit button
+at the right. On mobile, the Reddit button shows just its orange logo.
+
+## The mapper
+
+The example puzzle, mapped to physical disc stacks using the repository palette:
+
+![Colour Puzzle Mapper showing the example puzzle’s legend and physical disc stacks](docs/app-screenshot.png)
 
 The browser decodes the image locally into a canvas capped at 720 × 1200 pixels, locates
 repeated slot shapes, and outlines the detected
@@ -103,7 +121,8 @@ stripes, matching the supplied palette.
 ```
 index.html           upload UI, preview, results
 screen-free.html     screen-free setup blog post
-images/              published photos of the physical setup
+images/              setup photos, default puzzle screenshot, Reddit icon
+docs/                README app screenshot (not deployed)
 styles.css
 src/main.js          wiring: file → canvas → detect → sample → cluster → map → render
 src/render.js        DOM rendering: grid + disc mapping
@@ -157,8 +176,8 @@ fixture at three sizes, including both empty tubes and all ten colours.
 Pull requests and pushes to `main` run tests, build `_site/`, and retain the
 generated site as the `web-assets` CI artifact. The build contains only
 `index.html`, `screen-free.html`, `styles.css`, `src/`, `images/`, and `.nojekyll`;
-uploaded screenshots, fixtures, tests, and repository metadata are excluded.
-The two setup photos in `images/` are intentionally public. Relative asset paths support
+uploaded screenshots, documentation screenshots, fixtures, tests, and repository metadata are excluded.
+The setup photos and example puzzle in `images/` are intentionally public. Relative asset paths support
 GitHub Pages project URLs.
 
 Pushes to `main` (or a manual workflow run) test and build the site, then deploy
@@ -169,3 +188,6 @@ will expose the site at https://ddol.github.io/colour-puzzle-mapper/.
 The deployment job uses the `github-pages` environment and GitHub's built-in
 token; no hosting credentials or image-upload backend are required. Environment
 protection rules, if configured in GitHub, must permit the deployment branch.
+
+The Reddit icon is from [Simple Icons](https://github.com/simple-icons/simple-icons),
+released under CC0, and uses Reddit orange (`#ff4500`).

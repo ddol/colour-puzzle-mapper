@@ -24,9 +24,9 @@ test('build publishes only public assets and removes stale output', async (t) =>
       assert.ok((await readFile(new URL(path, destination))).length > 0, `${path} should be published`);
     }
   }
-  // Check the entry module and its relative imports are present in the artifact.
+  // Check the entry module's imports and bundled image URLs in the artifact.
   const main = await readFile(new URL('src/main.js', destination), 'utf8');
-  for (const [, path] of main.matchAll(/from '(.+?)'/g)) {
+  for (const [, path] of main.matchAll(/(?:from |new URL\()'(.+?)'/g)) {
     await readFile(new URL(path, new URL('src/main.js', destination)));
   }
 });
