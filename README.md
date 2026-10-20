@@ -23,6 +23,7 @@ npm test         # node --test, zero dependencies
 index.html           upload UI, preview, results
 styles.css
 src/main.js          wiring: file → canvas → detect → sample → cluster → map → render
+src/render.js        DOM rendering: grid + disc mapping
 src/image.js         File → ImageData (browser only)
 src/detect.js        board / tube / slot geometry (+ manual grid fallback)
 src/sample.js        median colour per slot, empty-slot detection
