@@ -29,6 +29,24 @@ export function renderGrid(el, grid, colorOf, cols) {
   });
 }
 
+/** Show the one-to-one substitution even when screenshot/disc colours differ. */
+export function renderMapping(el, colors, mapping) {
+  el.replaceChildren();
+  for (const [label, { disc }] of Object.entries(mapping)) {
+    const item = document.createElement('span');
+    item.className = 'mapping-item';
+    const source = document.createElement('span');
+    source.className = 'mapping-source';
+    source.style.background = rgbToHex(colors[label]);
+    const target = document.createElement('span');
+    target.className = 'mapping-target';
+    target.style.background = discBackground(disc);
+    item.append(source, `${label} → ${disc.id}`, target);
+    item.title = `${label} maps to ${disc.id}: ${disc.name}`;
+    el.append(item);
+  }
+}
+
 export function renderJson(el, payload) {
   el.textContent = JSON.stringify(payload, null, 2);
 }

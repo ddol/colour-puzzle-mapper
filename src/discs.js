@@ -1,39 +1,20 @@
-// Match screenshot colours directly to the physical disc palette.
-import { hexToRgb, rgbToLab, deltaE } from './color.js';
-
-/**
- * Printed disc set. PLACEHOLDER values: replace with the real disc colours
- * (ideally measured from a photo of the discs under neutral light).
- * @type {{ id: string, name: string, hex: string }[]}
- */
+// Puzzle labels map one-to-one to palette entries, regardless of their RGB values.
 export { DEFAULT_PALETTE as DISC_PALETTE } from './default-palette.js';
 import { DEFAULT_PALETTE as DISC_PALETTE } from './default-palette.js';
 
-/** Nearest disc to an RGB colour, by ΔE in Lab space. */
-export function nearestDisc(rgb, palette = DISC_PALETTE) {
-  const lab = rgbToLab(rgb);
-  let best = null;
-  for (const disc of palette) {
-    const d = deltaE(lab, rgbToLab(hexToRgb(disc.hex)));
-    if (!best || d < best.distance) best = { disc, distance: d };
-  }
-  return best;
-}
-
 /**
- * Map each distinct puzzle colour (label → RGB) to the nearest disc colour.
- * @param {Record<string, [number, number, number]>} puzzleColors
- * @returns {{ mapping: Record<string, { disc: object, distance: number }>,
- *             collisions: Record<string, string[]> }}
+ * Assign A → first disc, B → second disc, and so on. Sorting labels makes the
+ * assignment independent of object insertion order. Editing a disc's colour or
+ * stripes changes its appearance without changing any puzzle assignments.
  */
 export function mapToDiscs(puzzleColors, palette = DISC_PALETTE) {
-  const mapping = {};
-  const byDisc = {};
-  for (const [label, rgb] of Object.entries(puzzleColors)) {
-    const { disc, distance } = nearestDisc(rgb, palette);
-    mapping[label] = { disc, distance };
-    (byDisc[disc.id] ??= []).push(label);
+  const labels = Object.keys(puzzleColors).sort((a, b) => a.length - b.length || a.localeCompare(b, 'en'));
+  if (labels.length > palette.length) {
+    throw new Error(`Detected ${labels.length} screenshot colours but only ${palette.length} discs are available. Each screenshot colour needs its own disc; check the detected grid.`);
   }
-  const collisions = Object.fromEntries(Object.entries(byDisc).filter(([, labels]) => labels.length > 1));
-  return { mapping, collisions };
+  if (new Set(palette.map(disc => disc.id)).size !== palette.length) {
+    throw new Error('Disc IDs must be unique for one-to-one mapping.');
+  }
+  const mapping = Object.fromEntries(labels.map((label, index) => [label, { disc: palette[index] }]));
+  return { mapping };
 }

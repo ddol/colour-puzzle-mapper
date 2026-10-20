@@ -24,7 +24,7 @@
 
     <section class="panel" id="palette-panel">
       <h2>Your ten disc colours</h2>
-      <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Screenshot colours are matched directly; physical stack order is reversed.</p>
+      <p class="sub">Tap a disc to change its colour. Tick Black or White to add stripes. Changes save on this device. Each screenshot colour gets its own disc, in palette order. Physical stack order is reversed.</p>
       <div class="palette-head" aria-hidden="true">
         <span>Disc</span><span>Colour</span><span>Name</span><span>Black</span><span>White</span>
       </div>
@@ -56,6 +56,7 @@
         <h2 id="physical-title">Physical disc stacks</h2>
         <p>Build from position 1 at the bottom. The order is reversed so the next digital bottom disc is on top of your physical stack.</p>
         <p id="result-warning" class="warning" role="status"></p>
+        <div id="mapping-legend" class="mapping-legend" aria-label="Screenshot colour to disc assignments"></div>
         <div id="discs" class="grid"></div>
       </section>
 
@@ -70,7 +71,10 @@
   <dialog id="color-dialog" aria-labelledby="color-title">
     <form id="color-form">
       <h2 id="color-title">Disc colour</h2>
-      <div id="color-preview" class="color-preview" aria-hidden="true"></div>
+      <label id="color-preview" class="color-preview" title="Open system colour picker">
+        <input id="disc-native-color" type="color" aria-label="Choose disc colour with system picker">
+      </label>
+      <p class="picker-hint">Tap the disc to open the system colour picker.</p>
       <label class="hex-label" for="disc-hex">Hex colour
         <input id="disc-hex" type="text" maxlength="7" spellcheck="false" autocapitalize="off" autocomplete="off" pattern="#[0-9A-Fa-f]{6}" required aria-describedby="color-error">
       </label>
