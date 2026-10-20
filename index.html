@@ -20,7 +20,7 @@
     <p class="sub mapper-intro">Try the example below, or upload today’s puzzle screenshot.</p>
   </header>
 
-  <main>
+  <main class="mapper-layout">
     <section class="panel" id="upload-panel">
       <label class="drop" for="file-input">
         <input id="file-input" type="file" accept="image/*">
@@ -45,6 +45,7 @@
         <button id="copy-json" type="button">Copy JSON</button>
       </details>
     </section>
+    <div class="mapper-drawers">
     <details class="panel drawer" id="inspection-panel" hidden>
       <summary>Screenshot &amp; extracted colours</summary>
       <div class="drawer-content">
@@ -82,6 +83,7 @@
       </div>
     </details>
 
+    </div>
   </main>
 
   <dialog id="color-dialog" aria-labelledby="color-title">

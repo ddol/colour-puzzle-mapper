@@ -198,3 +198,30 @@ code { overflow-wrap: anywhere; }
 .drawer > summary { font-size: 1rem; font-weight: 600; }
 .drawer-content { padding-top: 16px; }
 .drawer-content > section + section { margin-top: 24px; }
+
+/* Keep the phone-sized workflow cards together on wider screens. */
+body:has(.mapper-layout) .site-header,
+.mapper-layout { max-width: 1232px; }
+.mapper-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 384px);
+  gap: 16px;
+  align-items: start;
+  justify-content: center;
+}
+.mapper-layout > *, .mapper-drawers { min-width: 0; }
+.mapper-layout > .panel, .mapper-drawers .panel { margin-bottom: 0; }
+.mapper-drawers { display: grid; gap: 16px; }
+.mapper-layout [hidden] { display: none; }
+/* A disc keeps its proportions even when its stack column changes width. */
+.mapper-layout .grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 72px)); }
+.mapper-layout .slot { height: auto; flex: 0 0 auto; aspect-ratio: 3 / 1; }
+.mapper-layout .slot + .slot { margin-bottom: -1px; }
+@media (min-width: 832px) {
+  .mapper-layout { grid-template-columns: repeat(2, minmax(0, 384px)); }
+  .mapper-drawers { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+@media (min-width: 1232px) {
+  .mapper-layout { grid-template-columns: repeat(3, minmax(0, 384px)); }
+  .mapper-drawers { grid-column: auto; grid-template-columns: minmax(0, 1fr); }
+}
