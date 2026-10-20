@@ -2,7 +2,7 @@ import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 export const root = new URL('../', import.meta.url);
-export const assets = ['index.html', 'styles.css', 'src'];
+export const assets = ['index.html', 'screen-free.html', 'styles.css', 'src', 'images'];
 
 export async function build(destination = new URL('_site/', root)) {
   await rm(destination, { recursive: true, force: true });

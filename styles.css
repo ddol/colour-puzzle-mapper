@@ -27,6 +27,22 @@ header, main {
 h1 { margin: 0.5em 0 0; font-size: 1.6rem; }
 h2 { font-size: 1.05rem; color: var(--muted); margin: 1em 0 0.5em; }
 .sub { color: var(--muted); margin: 0.25em 0 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: .9rem; }
+.site-nav a { padding-block: 6px; }
+
+.story-shell { max-width: 800px; }
+.story { padding-top: 8px; padding-bottom: 48px; }
+.story-kicker { color: var(--muted); font-size: .85rem; margin: 0 0 12px; }
+.story h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.15; text-wrap: balance; }
+.story h2 { color: var(--text); font-size: 1.3rem; margin-top: 32px; }
+.story p { line-height: 1.75; }
+.story .story-lead { font-size: 1.15rem; }
+.story figure { margin: 32px 0; }
+.story img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+.story figcaption { color: var(--muted); font-size: .85rem; margin-top: 10px; }
+.story-back { display: inline-block; margin-top: 16px; font-weight: 600; }
 
 .panel {
   background: var(--panel);
